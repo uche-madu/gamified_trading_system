@@ -44,3 +44,5 @@ docker-compose.override.yaml
 
 # Ignore system cache
 *.cache/
+
+.ruff.toml

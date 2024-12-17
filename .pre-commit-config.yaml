@@ -17,13 +17,6 @@ repos:
         name: Black Formatter
         args: ["--quiet"]  # Automatically format without checking
 
-  # isort: Sort imports
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-        name: isort Formatter
-        args: ["--profile", "black"]  # Automatically sort imports for Black compatibility
 
   # Check for trailing whitespace and end-of-file fixes
   - repo: https://github.com/pre-commit/pre-commit-hooks

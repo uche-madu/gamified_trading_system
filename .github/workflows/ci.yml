@@ -56,10 +56,6 @@ jobs:
           echo "Running Black..."
           black --check .
 
-          # isort Import Sorting
-          echo "Running isort..."
-          isort . --check-only
-
           # Run Tests
           echo "Running Tests..."
           pytest app/tests --disable-warnings
