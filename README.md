@@ -8,6 +8,9 @@ The backend is built with **FastAPI** for high-performance API development, **SQ
 
 ---
 
+![API Endpoints](assets/gamified_trading_fastapi_1.png)
+
+
 ## Functionality
 
 ### 1. **Users**
@@ -89,6 +92,7 @@ The backend is built with **FastAPI** for high-performance API development, **SQ
 |--------|-----------------------|-----------------------------------|
 | GET    | `/users/{user_id}`    | Retrieve a user's information.   |
 | POST   | `/users/`             | Create a new user.               |
+| GET    | `/users/`             | List all users.                  |
 
 ### **Assets**
 | Method | Endpoint              | Description                       |
@@ -113,6 +117,8 @@ The backend is built with **FastAPI** for high-performance API development, **SQ
 |--------|------------------------------|-------------------------------|
 | POST   | `/trades/{user_id}/buy/`     | Buy an asset.                 |
 | POST   | `/trades/{user_id}/sell/`    | Sell an asset.                |
+
+![Trades](assets/gamified_trading_fastapi_3.png)
 
 ### **Leaderboard**
 | Method | Endpoint              | Description                           |
@@ -144,3 +150,109 @@ Run the test suite with:
 
 ```bash
 pytest tests/
+```
+
+## How to Run the Project
+
+### **1. Local Setup (Development Environment)**
+
+To run the project locally on your machine:
+
+#### Prerequisites:
+- Python 3.12+
+- PostgreSQL installed locally
+- Virtual Environment (`venv`)
+
+#### Steps:
+1. **Clone the Repository**:
+    ```bash
+    git clone git@github.com:uche-madu/gamified_trading_system.git
+    cd gamified_trading_system
+    ```
+
+2. **Set Up a Virtual Environment**:
+
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate
+3. **Install Dependencies**:
+
+    ```bash
+    pip install --upgrade pip
+    pip install -r requirements.txt
+    ```
+4. **Install the Project as a Local Library**:
+
+    ```bash
+    pip install -e .
+    ```
+5. **Set Up Environment Variables**: Create a `.env` file in the root directory with the following content:
+
+    ```bash
+    POSTGRES_USER=admin
+    POSTGRES_PASSWORD=yourpassword
+    POSTGRES_DB=gamified_trading
+    POSTGRES_HOST=localhost
+    POSTGRES_PORT=5432
+    ```
+6. **Run the Application**: Start the FastAPI development server:
+
+    ```bash
+    uvicorn app.main:app --reload
+    ```
+7. **Access the API**:
+
+- Visit the API documentation at: http://localhost:8000/docs
+### **2. Run Using Docker Compose**
+To run the project with Docker Compose, follow these steps:
+
+**Prerequisites**:
+- Docker
+- Docker Compose
+
+**Steps**:
+1. **Clone the Repository**:
+
+    ```bash
+    git clone git@github.com:uche-madu/gamified_trading_system.git
+    cd gamified_trading_system
+    ```
+2. **Set Up Environment Variables**: Create a `.env` file in the root directory with the following content:
+
+    ```bash
+    POSTGRES_USER=admin
+    POSTGRES_PASSWORD=yourpassword
+    POSTGRES_DB=gamified_trading
+    POSTGRES_HOST=postgres
+    POSTGRES_PORT=5432
+    ```
+3. **Start the Services**: Run Docker Compose to start PostgreSQL and the FastAPI application:
+
+    ```bash
+    docker compose up -d --build
+    ```
+4. **Verify the Services**:
+
+- Check FastAPI: http://localhost:8000/docs
+- PostgreSQL is exposed on port `5432`.
+5. **Stop the Services**: To stop the services run:
+
+    ```bash
+    docker compose down
+    ```
+---
+
+### **3. Running Tests**
+You can run the test suite using `pytest`:
+
+    ```bash
+    pytest app/tests --disable-warnings
+    ```
+If using Docker, you can run tests inside the container (ensure the services are running):
+
+    ```bash
+    docker exec -it gamified_trading_fastapi pytest app/tests --disable-warnings
+    ```
+**Notes**:
+- The `pip install -e .` step ensures your project is installed as an editable package.
+- Docker Compose streamlines deployment by combining PostgreSQL and the FastAPI backend.
