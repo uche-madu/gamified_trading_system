@@ -1,13 +1,16 @@
+from unittest.mock import MagicMock
+
 import pytest
 from fastapi.testclient import TestClient
-from unittest.mock import MagicMock
-from app.main import app
+
 from app.dependencies import get_portfolio_service
-from app.models.portfolio_assets import PortfolioAsset
+from app.main import app
 from app.models.asset import Asset
+from app.models.portfolio_assets import PortfolioAsset
 
 # Initialize TestClient
 client = TestClient(app)
+
 
 @pytest.fixture
 def mock_portfolio_service():
@@ -23,6 +26,7 @@ def override_dependency(mock_portfolio_service):
     app.dependency_overrides[get_portfolio_service] = lambda: mock_portfolio_service
     yield
     app.dependency_overrides.clear()
+
 
 def test_create_portfolio(mock_portfolio_service):
     """
@@ -69,7 +73,7 @@ def test_add_asset(mock_portfolio_service):
         "asset_id": 101,
         "name": "Gold",
         "quantity": 10,
-        "price": 1500.0
+        "price": 1500.0,
     }
 
     # Match call with keyword arguments
@@ -90,11 +94,15 @@ def test_remove_asset(mock_portfolio_service):
     mock_portfolio_service.remove_asset.return_value = None
 
     # Send request
-    response = client.delete(f"/portfolios/{user_id}/assets/{asset_id}?quantity={quantity}")
+    response = client.delete(
+        f"/portfolios/{user_id}/assets/{asset_id}?quantity={quantity}"
+    )
 
     # Assertions
     assert response.status_code == 204
-    mock_portfolio_service.remove_asset.assert_called_once_with(user_id, asset_id, quantity)
+    mock_portfolio_service.remove_asset.assert_called_once_with(
+        user_id, asset_id, quantity
+    )
 
 
 def test_calculate_portfolio_value(mock_portfolio_service):

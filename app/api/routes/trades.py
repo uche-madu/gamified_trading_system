@@ -1,9 +1,11 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, Depends, HTTPException
+
+from app.dependencies import get_trade_service
 from app.schemas.trades import BuyAssetRequest, SellAssetRequest, TradeResponse
 from app.services.trade_service import TradeService
-from app.dependencies import get_trade_service
 
 router = APIRouter()
+
 
 @router.post("/{user_id}/buy/", response_model=TradeResponse, status_code=201)
 def buy_asset(
@@ -16,7 +18,9 @@ def buy_asset(
     """
     try:
         # Perform the buy operation
-        trade_service.buy_asset(user_id, request.asset_id, request.quantity, request.price)
+        trade_service.buy_asset(
+            user_id, request.asset_id, request.quantity, request.price
+        )
 
         # Calculate total value
         total_value = request.quantity * request.price
@@ -46,7 +50,9 @@ def sell_asset(
         trade_service.sell_asset(user_id, request.asset_id, request.quantity)
 
         # Calculate total value
-        total_value = request.quantity * request.price  # Assume price passed in the request
+        total_value = (
+            request.quantity * request.price
+        )  # Assume price passed in the request
 
         # Return formatted response
         return TradeResponse(

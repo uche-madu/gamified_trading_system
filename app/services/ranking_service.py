@@ -1,5 +1,6 @@
-from sqlalchemy.orm import Session
 from sqlalchemy import desc
+from sqlalchemy.orm import Session
+
 from app.models.user import User
 
 
@@ -34,7 +35,6 @@ class RankingService:
             previous_gem_count = user.gem_count
 
         self.db.commit()
-
 
     def get_top_n_users(self, n: int):
         """

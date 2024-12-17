@@ -1,5 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 
+
 # Response schema for leaderboard entries
 class LeaderboardEntry(BaseModel):
     rank: int

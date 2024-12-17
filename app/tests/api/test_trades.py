@@ -1,11 +1,10 @@
-import pytest
-from app.schemas.trades import BuyAssetRequest, SellAssetRequest
-from app.schemas.trades import TradeResponse
-from app.schemas.users import UserResponse
-from fastapi.testclient import TestClient
-from app.main import app
 from unittest.mock import MagicMock
+
+import pytest
+from fastapi.testclient import TestClient
+
 from app.dependencies import get_trade_service
+from app.main import app
 
 # Test client
 client = TestClient(app)
@@ -61,12 +60,7 @@ def test_sell_asset(mock_trade_service):
     """
     # Arrange
     user_id = 1
-    request_data = {
-        "asset_id": 101,
-        "name": "Gold",
-        "quantity": 5,
-        "price": 1500.0
-    }
+    request_data = {"asset_id": 101, "name": "Gold", "quantity": 5, "price": 1500.0}
 
     # Mock service response
     mock_trade_service.sell_asset.return_value = None
@@ -87,11 +81,7 @@ def test_buy_asset_invalid_data(mock_trade_service):
     Test buying an asset with invalid data (missing fields).
     """
     user_id = 1
-    request_data = {
-        "asset_id": 101,
-        "quantity": 10,
-        "price": 1500.0
-    }  # Missing 'name'
+    request_data = {"asset_id": 101, "quantity": 10, "price": 1500.0}  # Missing 'name'
 
     # Act
     response = client.post(f"/trades/{user_id}/buy/", json=request_data)
@@ -106,9 +96,7 @@ def test_sell_asset_invalid_data(mock_trade_service):
     Test selling an asset with invalid data (missing fields).
     """
     user_id = 1
-    request_data = {
-        "asset_id": 101
-    }  # Missing 'name' and 'quantity'
+    request_data = {"asset_id": 101}  # Missing 'name' and 'quantity'
 
     # Act
     response = client.post(f"/trades/{user_id}/sell/", json=request_data)

@@ -31,8 +31,8 @@ def test_assign_ranks(ranking_service, db_session, users):
     diana = db_session.query(User).filter(User.username == "Diana").first()
 
     assert charlie.rank == 1  # Charlie has the highest gem count (20)
-    assert alice.rank == 2    # Alice has the second-highest gem count (15)
-    assert bob.rank == 3      # Bob and Diana tie with 10 gems
+    assert alice.rank == 2  # Alice has the second-highest gem count (15)
+    assert bob.rank == 3  # Bob and Diana tie with 10 gems
     assert diana.rank == 3
 
 
@@ -44,4 +44,4 @@ def test_get_top_n_users(ranking_service, db_session, users):
     # Assert: Verify the top users
     assert len(top_users) == 2
     assert top_users[0].username == "Charlie"  # Highest gem count (20)
-    assert top_users[1].username == "Alice"    # Second highest gem count (15)
+    assert top_users[1].username == "Alice"  # Second highest gem count (15)

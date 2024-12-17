@@ -1,4 +1,5 @@
 import pytest
+
 from app.models.user import User
 from app.schemas.users import UserCreate  # Import UserCreate schema
 

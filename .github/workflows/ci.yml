@@ -1,0 +1,66 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  lint-test:
+    name: Linting and Testing
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Python
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Step 3: Cache dependencies
+      - name: Cache Python dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # Step 4: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff black isort pytest
+
+      # Step 5: Lint, Format, and Test in one shell session
+      - name: Lint, Check Format, and Run Tests
+        run: |
+          source .venv/bin/activate
+
+          # Ruff Linting
+          echo "Running Ruff..."
+          ruff check .
+
+          # Black Formatting
+          echo "Running Black..."
+          black --check .
+
+          # isort Import Sorting
+          echo "Running isort..."
+          isort . --check-only
+
+          # Run Tests
+          echo "Running Tests..."
+          pytest app/tests --disable-warnings

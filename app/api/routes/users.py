@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, Depends, HTTPException
+
+from app.dependencies import get_user_service
 from app.schemas.users import UserCreate, UserResponse
 from app.services.user_service import UserService
-from app.dependencies import get_user_service
 
 router = APIRouter()
 
@@ -16,7 +17,9 @@ def list_users(user_service: UserService = Depends(get_user_service)):
 
 
 @router.post("/", response_model=UserResponse)
-def create_user(request: UserCreate, user_service: UserService = Depends(get_user_service)):
+def create_user(
+    request: UserCreate, user_service: UserService = Depends(get_user_service)
+):
     """
     Create a new user.
     """

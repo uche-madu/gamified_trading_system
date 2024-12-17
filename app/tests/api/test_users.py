@@ -1,16 +1,20 @@
+from unittest.mock import MagicMock
+
 import pytest
 from fastapi.testclient import TestClient
-from app.main import app
-from app.schemas.users import UserCreate
-from app.models.user import User
-from app.services.user_service import UserService
-from unittest.mock import MagicMock
+
 from app.dependencies import get_user_service
+from app.main import app
+from app.models.user import User
+from app.schemas.users import UserCreate
+from app.services.user_service import UserService
+
 
 # Mock UserService
 @pytest.fixture
 def mock_user_service():
     return MagicMock(spec=UserService)
+
 
 # Override dependency
 @pytest.fixture(autouse=True)
@@ -63,7 +67,12 @@ def test_create_user(client, mock_user_service):
 
     # Assert
     assert response.status_code == 200
-    assert response.json() == {"id": 1, "username": "Alice", "gem_count": 0, "rank": None}
+    assert response.json() == {
+        "id": 1,
+        "username": "Alice",
+        "gem_count": 0,
+        "rank": None,
+    }
     mock_user_service.create_user.assert_called_once_with(UserCreate(**user_data))
 
 
@@ -81,7 +90,12 @@ def test_get_user(client, mock_user_service):
 
     # Assert
     assert response.status_code == 200
-    assert response.json() == {"id": 1, "username": "Alice", "gem_count": 10, "rank": None}
+    assert response.json() == {
+        "id": 1,
+        "username": "Alice",
+        "gem_count": 10,
+        "rank": None,
+    }
     mock_user_service.get_user.assert_called_once_with(user_id)
 
 

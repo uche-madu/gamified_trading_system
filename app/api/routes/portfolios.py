@@ -1,4 +1,6 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, Depends, HTTPException
+
+from app.dependencies import get_portfolio_service
 from app.schemas.portfolios import (
     AddAssetRequest,
     PortfolioAssetResponse,
@@ -7,14 +9,14 @@ from app.schemas.portfolios import (
     PortfolioValueResponse,
 )
 from app.services.portfolio_service import PortfolioService
-from app.dependencies import get_portfolio_service
 
 router = APIRouter()
 
+
 @router.post("/", response_model=PortfolioResponse, status_code=201)
 def create_portfolio(
-    request: PortfolioRequest, 
-    portfolio_service: PortfolioService = Depends(get_portfolio_service)
+    request: PortfolioRequest,
+    portfolio_service: PortfolioService = Depends(get_portfolio_service),
 ):
     """
     Create a new portfolio for a user.
@@ -25,7 +27,10 @@ def create_portfolio(
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.post("/{user_id}/assets/", response_model=PortfolioAssetResponse, status_code=201)
+
+@router.post(
+    "/{user_id}/assets/", response_model=PortfolioAssetResponse, status_code=201
+)
 def add_asset(
     user_id: int,
     request: AddAssetRequest,
@@ -86,7 +91,9 @@ def calculate_portfolio_value(
 
 
 @router.get("/{user_id}/", response_model=PortfolioResponse)
-def get_portfolio(user_id: int, portfolio_service: PortfolioService = Depends(get_portfolio_service)):
+def get_portfolio(
+    user_id: int, portfolio_service: PortfolioService = Depends(get_portfolio_service)
+):
     """
     Retrieve a user's portfolio and its assets.
     """

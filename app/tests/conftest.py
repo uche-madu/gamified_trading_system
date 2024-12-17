@@ -3,8 +3,9 @@ from services.asset_service import AssetService
 from services.ranking_service import RankingService
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from app.core.database import Base  # Ensure the same Base is used
-from app.models import User, Portfolio, Asset, PortfolioAsset  # Import models to register them with Base
+from app.models import User  # Import models to register them with Base
 from app.services.portfolio_service import PortfolioService
 from app.services.trade_service import TradeService
 from app.services.user_service import UserService
@@ -73,10 +74,12 @@ def trade_service(db_session, portfolio_service, user_service):
     """
     return TradeService(db_session, portfolio_service, user_service)
 
+
 @pytest.fixture
 def ranking_service(db_session):
     """Fixture to create an instance of RankingService with a database session."""
     return RankingService(db_session)
+
 
 @pytest.fixture
 def asset_service(db_session):

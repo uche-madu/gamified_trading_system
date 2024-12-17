@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+
 from app.models.user import User
 from app.schemas.users import UserCreate
 
@@ -37,4 +38,3 @@ class UserService:
         List all users in the database.
         """
         return self.db.query(User).all()
-

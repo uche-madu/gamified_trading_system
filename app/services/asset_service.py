@@ -1,6 +1,7 @@
-from sqlalchemy.orm import Session
-from app.models.asset import Asset
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
+
+from app.models.asset import Asset
 
 
 class AssetService:
@@ -30,7 +31,9 @@ class AssetService:
             raise ValueError(f"Asset with ID {asset_id} not found.")
         return asset
 
-    def update_asset(self, asset_id: int, name: str | None = None, price: float | None = None) -> Asset:
+    def update_asset(
+        self, asset_id: int, name: str | None = None, price: float | None = None
+    ) -> Asset:
         """
         Update an asset's name and/or price.
         """

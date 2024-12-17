@@ -1,14 +1,16 @@
-from fastapi import APIRouter, HTTPException, Depends
-from app.schemas.assets import AssetResponse, AssetCreateRequest, AssetUpdateRequest
-from app.services.asset_service import AssetService
+from fastapi import APIRouter, Depends, HTTPException
+
 from app.dependencies import get_asset_service
+from app.schemas.assets import AssetCreateRequest, AssetResponse, AssetUpdateRequest
+from app.services.asset_service import AssetService
 
 router = APIRouter()
+
 
 @router.post("/", response_model=AssetResponse, status_code=201)
 def create_asset(
     request: AssetCreateRequest,
-    asset_service: AssetService = Depends(get_asset_service)
+    asset_service: AssetService = Depends(get_asset_service),
 ):
     """
     Create a new asset.
@@ -21,10 +23,7 @@ def create_asset(
 
 
 @router.get("/{asset_id}", response_model=AssetResponse, status_code=200)
-def get_asset(
-    asset_id: int,
-    asset_service: AssetService = Depends(get_asset_service)
-):
+def get_asset(asset_id: int, asset_service: AssetService = Depends(get_asset_service)):
     """
     Retrieve an asset by ID.
     """
@@ -39,13 +38,15 @@ def get_asset(
 def update_asset(
     asset_id: int,
     request: AssetUpdateRequest,
-    asset_service: AssetService = Depends(get_asset_service)
+    asset_service: AssetService = Depends(get_asset_service),
 ):
     """
     Update an asset's name or price.
     """
     try:
-        asset = asset_service.update_asset(asset_id, name=request.name, price=request.price)
+        asset = asset_service.update_asset(
+            asset_id, name=request.name, price=request.price
+        )
         return asset
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -53,8 +54,7 @@ def update_asset(
 
 @router.delete("/{asset_id}", status_code=204)
 def delete_asset(
-    asset_id: int,
-    asset_service: AssetService = Depends(get_asset_service)
+    asset_id: int, asset_service: AssetService = Depends(get_asset_service)
 ):
     """
     Delete an asset by ID.
@@ -67,9 +67,7 @@ def delete_asset(
 
 
 @router.get("/", response_model=list[AssetResponse], status_code=200)
-def list_assets(
-    asset_service: AssetService = Depends(get_asset_service)
-):
+def list_assets(asset_service: AssetService = Depends(get_asset_service)):
     """
     List all available assets.
     """

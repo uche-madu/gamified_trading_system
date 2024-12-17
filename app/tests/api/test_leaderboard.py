@@ -1,16 +1,20 @@
+from unittest.mock import MagicMock
+
 import pytest
 from fastapi.testclient import TestClient
-from unittest.mock import MagicMock
+
+from app.dependencies import get_ranking_service
 from app.main import app
 from app.models.user import User
-from app.dependencies import get_ranking_service
 
 client = TestClient(app)
+
 
 @pytest.fixture
 def mock_ranking_service():
     """Fixture for Mock RankingService."""
     return MagicMock()
+
 
 @pytest.fixture(autouse=True)
 def override_ranking_service(mock_ranking_service):

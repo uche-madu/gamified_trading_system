@@ -1,7 +1,8 @@
 import os
+
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
-from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
@@ -21,6 +22,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # Base class for all ORM models
 Base = declarative_base()
 
+
 def get_db():
     """
     Dependency for database sessions in FastAPI routes.
@@ -32,6 +34,7 @@ def get_db():
     finally:
         db.close()
 
+
 def init_db():
     """
     Initialize the database by creating all tables.
@@ -39,7 +42,7 @@ def init_db():
     """
     if os.getenv("ENV") == "TESTING":
         return  # Skip table creation in tests
-    
+
     # Import all models to ensure they are registered with Base
-    from app.models import User, Portfolio, Asset, PortfolioAsset
+
     Base.metadata.create_all(bind=engine)

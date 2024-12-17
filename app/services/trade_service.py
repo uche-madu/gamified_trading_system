@@ -1,11 +1,17 @@
-from app.models import User
 from sqlalchemy.orm import Session
+
+from app.models import User
 from app.services.portfolio_service import PortfolioService
 from app.services.user_service import UserService
 
 
 class TradeService:
-    def __init__(self, db: Session, portfolio_service: PortfolioService, user_service: UserService):
+    def __init__(
+        self,
+        db: Session,
+        portfolio_service: PortfolioService,
+        user_service: UserService,
+    ):
         self.db = db
         self.portfolio_service = portfolio_service
         self.user_service = user_service
@@ -18,7 +24,9 @@ class TradeService:
         user = self.user_service.get_user(user_id)
 
         # Add or update the asset in the user's portfolio
-        self.portfolio_service.add_asset_to_portfolio(user_id=user_id, asset_id=asset_id, quantity=quantity, price=price)
+        self.portfolio_service.add_asset_to_portfolio(
+            user_id=user_id, asset_id=asset_id, quantity=quantity, price=price
+        )
 
         # Record the trade and update milestones
         self._record_trade(user)
@@ -31,7 +39,9 @@ class TradeService:
         user = self.user_service.get_user(user_id)
 
         # Remove or update the asset's quantity in the user's portfolio
-        self.portfolio_service.remove_asset(user_id=user_id, asset_id=asset_id, quantity=quantity)
+        self.portfolio_service.remove_asset(
+            user_id=user_id, asset_id=asset_id, quantity=quantity
+        )
 
         # Record the trade and update milestones
         self._record_trade(user)

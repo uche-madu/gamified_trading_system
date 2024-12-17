@@ -1,7 +1,10 @@
-from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.api.routes import users, portfolios, trades, leaderboard, assets
+
+from fastapi import FastAPI
+
+from app.api.routes import assets, leaderboard, portfolios, trades, users
 from app.core.database import init_db
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -16,6 +19,7 @@ async def lifespan(app: FastAPI):
     # Perform any cleanup tasks if needed (e.g., closing connections, files)
     # For this project, no specific cleanup is needed.
 
+
 # Initialize FastAPI application with lifespan
 app = FastAPI(lifespan=lifespan)
 
@@ -26,12 +30,14 @@ app.include_router(trades.router, prefix="/trades", tags=["Trades"])
 app.include_router(leaderboard.router, prefix="/leaderboard", tags=["Leaderboard"])
 app.include_router(assets.router, prefix="/assets", tags=["Assets"])
 
+
 @app.get("/")
 def root():
     """
     Basic welcome endpoint.
     """
     return {"message": "Welcome to the Gamified Trading System"}
+
 
 @app.get("/health")
 def health_check():

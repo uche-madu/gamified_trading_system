@@ -1,5 +1,7 @@
-from pydantic import BaseModel, ConfigDict
 from typing import List
+
+from pydantic import BaseModel, ConfigDict
+
 
 # Request schema for adding assets to a portfolio
 class AddAssetRequest(BaseModel):
@@ -11,13 +13,14 @@ class AddAssetRequest(BaseModel):
 # Request schema for creating a portfolio
 class PortfolioRequest(BaseModel):
     user_id: int  # ID of the user for whom the portfolio is being created
-    
+
+
 # Response schema for a single asset in the portfolio
 class PortfolioAssetResponse(BaseModel):
     asset_id: int  # Reference to the global Asset table
-    name: str      # Name of the asset
+    name: str  # Name of the asset
     quantity: int  # Quantity held in the portfolio
-    price: float   # Price at the time of adding the asset
+    price: float  # Price at the time of adding the asset
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -26,7 +29,9 @@ class PortfolioAssetResponse(BaseModel):
 class PortfolioResponse(BaseModel):
     id: int  # Portfolio ID
     user_id: int
-    assets: List[PortfolioAssetResponse]  # List of assets in the portfolio with their quantities and prices
+    assets: List[
+        PortfolioAssetResponse
+    ]  # List of assets in the portfolio with their quantities and prices
 
     model_config = ConfigDict(from_attributes=True)
 
