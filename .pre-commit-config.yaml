@@ -1,0 +1,44 @@
+repos:
+  # Ruff: Lint and format Python code
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.3
+    hooks:
+      - id: ruff
+        name: Ruff Linter
+        args: ["--fix"]  # Automatically fix linting issues
+      - id: ruff-format
+        name: Ruff Formatter
+
+  # Black: Code Formatter
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+        name: Black Formatter
+        args: ["--quiet"]  # Automatically format without checking
+
+  # isort: Sort imports
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        name: isort Formatter
+        args: ["--profile", "black"]  # Automatically sort imports for Black compatibility
+
+  # Check for trailing whitespace and end-of-file fixes
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace  # Fix trailing whitespace automatically
+      - id: end-of-file-fixer    # Fix missing newline at EOF automatically
+
+  # Pytest: Run tests before commit
+  - repo: local
+    hooks:
+      - id: pytest
+        name: Run pytest in the app folder
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: true
+        args: ["app/tests", "--disable-warnings"]

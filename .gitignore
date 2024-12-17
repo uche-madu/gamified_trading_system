@@ -7,10 +7,9 @@ __pycache__/
 
 # Ignore Docker environment files
 .dockerignore
-.env
+# .env
 
 # Ignore pre-commit cache
-.pre-commit-config.yaml
 .pre-commit-hooks/
 
 # Ignore egg-info directories created by setuptools
@@ -24,6 +23,7 @@ __pycache__/
 
 # Ignore test results
 *.pytest_cache/
+.ruff_cache
 
 # Ignore IDE-specific files
 .vscode/
