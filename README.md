@@ -1,8 +1,6 @@
 # Gamified Trading System
 
-[![CI Pipeline](https://github.com/uche-madu/gamified_trading_system/actions/workflows/ci.yml/badge.svg)](https://github.com/uche-madu/gamified_trading_system/actions/workflows/ci.yml)
-
-[![codecov](https://codecov.io/gh/uche-madu/gamified_trading_system/graph/badge.svg?token=RowUEAILCi)](https://codecov.io/gh/uche-madu/gamified_trading_system)
+[![CI Pipeline](https://github.com/uche-madu/gamified_trading_system/actions/workflows/ci.yml/badge.svg)](https://github.com/uche-madu/gamified_trading_system/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/uche-madu/gamified_trading_system/graph/badge.svg?token=RowUEAILCi)](https://codecov.io/gh/uche-madu/gamified_trading_system)
 
 
 ## Overview
