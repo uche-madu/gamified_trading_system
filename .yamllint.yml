@@ -1,0 +1,18 @@
+---
+
+extends: default
+
+rules:
+  line-length:
+    max: 120  # Set maximum line length to 120
+    level: warning
+  trailing-spaces:
+    level: error
+  indentation:
+    spaces: 2
+    indent-sequences: true
+  document-start:
+    level: warning
+  empty-lines:
+    max: 2
+    level: warning

@@ -1,3 +1,4 @@
+---
 repos:
   # Ruff: Lint and format Python code
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -17,6 +18,15 @@ repos:
         name: Black Formatter
         args: ["--quiet"]  # Automatically format without checking
 
+  # YAML Linter: Check YAML syntax and formatting
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        name: YAML Linter
+        args:
+          - "-c"
+          - ".yamllint.yml"
 
   # Check for trailing whitespace and end-of-file fixes
   - repo: https://github.com/pre-commit/pre-commit-hooks

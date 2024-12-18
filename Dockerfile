@@ -13,6 +13,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code to the working directory
 COPY . .
 
+# Install the project in editable mode
+RUN pip install -e .
+
 # Expose the FastAPI port
 EXPOSE 8000
 

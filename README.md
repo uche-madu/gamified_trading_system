@@ -1,15 +1,21 @@
 # Gamified Trading System
 
+[![CI Pipeline](https://github.com/uche-madu/gamified_trading_system/actions/workflows/ci.yml/badge.svg)](https://github.com/uche-madu/gamified_trading_system/actions/workflows/ci.yml)
+
+[![codecov](https://codecov.io/gh/uche-madu/gamified_trading_system/graph/badge.svg?token=RowUEAILCi)](https://codecov.io/gh/uche-madu/gamified_trading_system)
+
+
 ## Overview
 
-The **Gamified Trading System** is a full-stack application designed to simulate asset trading in a gamified environment. Users can create portfolios, buy and sell assets, and track their progress through a leaderboard based on trading milestones and achievements. The system provides APIs for managing users, assets, portfolios, trades, and rankings, ensuring a seamless experience for both end-users and developers.
+The **Gamified Trading System** is a backend API application designed to simulate asset trading in a gamified environment. Users can create portfolios, buy and sell assets, and track their progress through a leaderboard based on trading milestones and achievements. The system provides APIs for managing users, assets, portfolios, trades, and rankings.
 
-The backend is built with **FastAPI** for high-performance API development, **SQLAlchemy** for database interactions, and **Alembic** for database migrations. It supports robust testing using **pytest** with a clear focus on modularity and maintainability.
+The backend is built with **FastAPI** for high-performance API development and **SQLAlchemy** for database interactions. Swagger UI is available for exploring and interacting with the API endpoints.
+
+This project emphasizes modularity, scalability, and maintainability, with comprehensive testing implemented using **pytest**.
 
 ---
 
 ![API Endpoints](assets/gamified_trading_fastapi_1.png)
-
 
 ## Functionality
 
@@ -94,6 +100,8 @@ The backend is built with **FastAPI** for high-performance API development, **SQ
 | POST   | `/users/`             | Create a new user.               |
 | GET    | `/users/`             | List all users.                  |
 
+![Users](assets/gamified_trading_fastapi_users_get_docs.png)
+
 ### **Assets**
 | Method | Endpoint              | Description                       |
 |--------|-----------------------|-----------------------------------|
@@ -102,6 +110,8 @@ The backend is built with **FastAPI** for high-performance API development, **SQ
 | PUT    | `/assets/{asset_id}`  | Update asset details.            |
 | DELETE | `/assets/{asset_id}`  | Delete an asset.                 |
 | GET    | `/assets/`            | List all assets.                 |
+
+![Assets Redoc](assets/gamified_trading_fastapi_assets_redoc.png)
 
 ### **Portfolios**
 | Method | Endpoint                          | Description                                |
@@ -112,26 +122,28 @@ The backend is built with **FastAPI** for high-performance API development, **SQ
 | GET    | `/portfolios/{user_id}/assets/`   | List all assets in a portfolio.            |
 | GET    | `/portfolios/{user_id}/value`     | Calculate the portfolio's total value.     |
 
+![Portfolios Redoc](assets/gamified_trading_fastapi_portfolios_redoc.png)
+
 ### **Trades**
 | Method | Endpoint                     | Description                   |
 |--------|------------------------------|-------------------------------|
 | POST   | `/trades/{user_id}/buy/`     | Buy an asset.                 |
 | POST   | `/trades/{user_id}/sell/`    | Sell an asset.                |
 
-![Trades](assets/gamified_trading_fastapi_3.png)
+![Trades](assets/gamified_trading_fastapi_trades_redoc.png)
 
 ### **Leaderboard**
 | Method | Endpoint              | Description                           |
 |--------|-----------------------|---------------------------------------|
 | GET    | `/leaderboard/`       | Retrieve the top-ranked users.        |
 
+![Leaderboard Redoc](assets/gamified_trading_fastapi_leaderboard_redoc.png)
 ---
 
 ## Tech Stack
 
 - **FastAPI**: Backend framework for high-performance APIs.
 - **SQLAlchemy**: ORM for database interactions.
-- **Alembic**: Database migration management.
 - **Pydantic**: Schema validation and data parsing.
 - **PostgreSQL**: Relational database for data persistence.
 - **Docker**: Containerization for deployment.
@@ -195,6 +207,8 @@ To run the project locally on your machine:
     POSTGRES_HOST=localhost
     POSTGRES_PORT=5432
     ```
+This assumes you've already setup your postgres database locally with these variables.
+
 6. **Run the Application**: Start the FastAPI development server:
 
     ```bash
@@ -233,7 +247,7 @@ To run the project with Docker Compose, follow these steps:
     ```
 4. **Verify the Services**:
 
-- Check FastAPI: http://localhost:8000/docs
+- Check FastAPI: [http://localhost:8000/docs](http://localhost:8000/docs)
 - PostgreSQL is exposed on port `5432`.
 5. **Stop the Services**: To stop the services run:
 
@@ -256,3 +270,16 @@ If using Docker, you can run tests inside the container (ensure the services are
 **Notes**:
 - The `pip install -e .` step ensures your project is installed as an editable package.
 - Docker Compose streamlines deployment by combining PostgreSQL and the FastAPI backend.
+
+
+## API Documentation
+
+You can explore the API using the following documentation pages generated by **FastAPI**:
+
+1. **Swagger UI** (Interactive API Documentation):
+   - Visit: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+2. **ReDoc** (Alternative API Documentation):
+   - Visit: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+Both pages allow you to view all available endpoints, input/output schemas, and test the API directly (Swagger UI only).

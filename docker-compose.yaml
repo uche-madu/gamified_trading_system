@@ -1,3 +1,4 @@
+---
 services:
   postgres:
     image: postgres:15
@@ -9,13 +10,13 @@ services:
     ports:
       - 5432:5432
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "admin"]
+      test: [CMD, pg_isready, -U, admin]
       interval: 10s
       retries: 5
       start_period: 5s
     restart: always
 
-  gamified_trading_fastapi:
+  fastapi:
     build:
       context: .
     container_name: gamified_trading_fastapi
@@ -29,9 +30,10 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: [CMD, curl, -f, http://localhost:8000/health]
       interval: 10s
       retries: 5
       start_period: 5s
+
 volumes:
   postgres-db-volume:

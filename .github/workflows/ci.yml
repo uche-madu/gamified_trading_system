@@ -1,3 +1,4 @@
+---
 name: CI Pipeline
 
 on:
@@ -9,6 +10,7 @@ on:
     branches:
       - main
       - develop
+  workflow_dispatch:
 
 jobs:
   lint-test:
@@ -24,7 +26,7 @@ jobs:
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: 3.12
 
       # Step 3: Cache dependencies
       - name: Cache Python dependencies
@@ -59,4 +61,10 @@ jobs:
 
           # Run Tests
           echo "Running Tests..."
-          pytest app/tests --disable-warnings
+          pytest app/tests --disable-warnings --cov=app --cov-report=xml
+
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: uche-madu/gamified_trading_system
