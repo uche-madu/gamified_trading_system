@@ -40,8 +40,7 @@ repos:
     hooks:
       - id: pytest
         name: Run pytest in the app folder
-        entry: pytest
+        entry: make all-tests
         language: system
         pass_filenames: false
         always_run: true
-        args: ["app/tests", "--disable-warnings"]

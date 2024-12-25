@@ -13,56 +13,39 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint-test:
-    name: Linting and Testing
+  all-tests:
+    name: Run All Tests in Docker
     runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:27.4.1-dind-rootless  # Rootless mode for security
+        options: --privileged  # Required for DinD, even in rootless mode
 
     steps:
       # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
+      # Step 2: Start Docker Compose
+      - name: Start Docker Compose
+        run: make docker-up
 
-      # Step 3: Cache dependencies
-      - name: Cache Python dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+      # Step 3: Apply Database Migrations
+      - name: Apply Alembic Migrations
+        run: make alembic-upgrade
 
-      # Step 4: Install dependencies
-      - name: Install dependencies
-        run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -e .
 
-      # Step 5: Lint, Format, and Test in one shell session
-      - name: Lint, Check Format, and Run Tests
-        run: |
-          source .venv/bin/activate
+      # Step 3: Run All Tests
+      - name: Run All Tests
+        run: make all-tests-with-coverage
 
-          # Ruff Linting
-          echo "Running Ruff..."
-          ruff check .
+      # Step 4: Stop Docker Compose
+      - name: Stop Docker Compose
+        if: always()
+        run: make docker-down
 
-          # Black Formatting
-          echo "Running Black..."
-          black --check .
-
-          # Run Tests
-          echo "Running Tests..."
-          pytest app/tests --disable-warnings --cov=app --cov-report=xml
-
+      # Step 5: Upload Coverage to Codecov
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v5
         with:

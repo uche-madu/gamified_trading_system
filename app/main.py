@@ -2,8 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from app.api.routes import assets, leaderboard, portfolios, trades, users
-from app.core.database import init_db
+from app.api.routes import assets, leaderboard, portfolios, users
 
 
 @asynccontextmanager
@@ -12,9 +11,7 @@ async def lifespan(app: FastAPI):
     Application lifespan context manager.
     Performs initialization and cleanup tasks for the FastAPI application.
     """
-    # Initialize the database
-    init_db()
-    # Yield control to allow the app to run
+    # No need to call init_db(), as Alembic manages the database schema.
     yield
     # Perform any cleanup tasks if needed (e.g., closing connections, files)
     # For this project, no specific cleanup is needed.
@@ -26,7 +23,6 @@ app = FastAPI(lifespan=lifespan)
 # Include API routers
 app.include_router(users.router, prefix="/users", tags=["Users"])
 app.include_router(portfolios.router, prefix="/portfolios", tags=["Portfolios"])
-app.include_router(trades.router, prefix="/trades", tags=["Trades"])
 app.include_router(leaderboard.router, prefix="/leaderboard", tags=["Leaderboard"])
 app.include_router(assets.router, prefix="/assets", tags=["Assets"])
 

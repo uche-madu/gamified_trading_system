@@ -13,6 +13,12 @@ class AssetService:
         Create a new asset.
         """
         try:
+            # Check if the asset already exists by name
+            existing_asset = self.db.query(Asset).filter(Asset.name == name).first()
+            if existing_asset:
+                raise ValueError(f"Asset with name '{name}' already exists.")
+
+            # Create the asset
             asset = Asset(name=name, price=price)
             self.db.add(asset)
             self.db.commit()

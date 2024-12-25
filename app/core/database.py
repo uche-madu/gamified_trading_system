@@ -8,10 +8,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 load_dotenv()
 
 # Build the database URL dynamically from environment variables
-DATABASE_URL = (
-    f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@"
-    f"{os.getenv('POSTGRES_HOST')}:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DB')}"
-)
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Create the SQLAlchemy engine
 engine = create_engine(DATABASE_URL)
@@ -29,6 +26,7 @@ def get_db():
     Creates a new SQLAlchemy session for each request and closes it after use.
     """
     db = SessionLocal()
+    print(f"Using main database session: {db.bind.url}")
     try:
         yield db
     finally:
@@ -37,12 +35,12 @@ def get_db():
 
 def init_db():
     """
-    Initialize the database by creating all tables.
-    Models are imported dynamically to avoid circular import issues.
+    Initialize the database schema using Alembic migrations instead of direct creation.
+    Not directly anymore through `Base.metadata.create_all(bind=engine)`
     """
-    if os.getenv("ENV") == "TESTING":
-        return  # Skip table creation in tests
 
-    # Import all models to ensure they are registered with Base
-
-    Base.metadata.create_all(bind=engine)
+    # Inform developers to use Alembic migrations.
+    raise NotImplementedError(
+        "Database initialization is managed via Alembic migrations. "
+        "Run `alembic upgrade head` to apply migrations."
+    )

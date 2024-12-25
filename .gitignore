@@ -49,3 +49,5 @@ docker-compose.override.yaml
 
 alembic.ini
 alembic/
+
+.coverage

@@ -1,24 +1,19 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, Field
 
 
-# Request schema for buying an asset
 class BuyAssetRequest(BaseModel):
     asset_id: int
-    name: str
-    quantity: int
-    price: float
+    quantity: int = Field(..., gt=0, description="Quantity must be greater than zero.")
+    price: float = Field(..., gt=0, description="Price must be greater than zero.")
+    name: str  # Optional, only used for logging or responses
 
 
-# Request schema for selling an asset
 class SellAssetRequest(BaseModel):
     asset_id: int
-    name: str
-    quantity: int
-    price: float
+    quantity: int = Field(..., gt=0, description="Quantity must be greater than zero.")
+    price: float = Field(..., gt=0, description="Price must be greater than zero.")
+    name: str  # Optional, only used for logging or responses
 
 
-# Response schema for trade actions
 class TradeResponse(BaseModel):
     message: str
-
-    model_config = ConfigDict(from_attributes=True)

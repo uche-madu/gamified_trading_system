@@ -2,10 +2,13 @@ from unittest.mock import MagicMock
 
 import pytest
 from fastapi.testclient import TestClient
+from services.asset_service import AssetService
 
 from app.dependencies import get_asset_service
 from app.main import app
 from app.schemas.assets import AssetResponse
+
+pytestmark = pytest.mark.unit
 
 client = TestClient(app)
 
@@ -13,7 +16,7 @@ client = TestClient(app)
 @pytest.fixture
 def mock_asset_service():
     """Fixture for Mock AssetService."""
-    return MagicMock()
+    return MagicMock(spec=AssetService)
 
 
 @pytest.fixture(autouse=True)

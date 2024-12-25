@@ -1,4 +1,4 @@
-from sqlalchemy import desc
+from sqlalchemy import asc, desc
 from sqlalchemy.orm import Session
 
 from app.models.user import User
@@ -38,7 +38,13 @@ class RankingService:
 
     def get_top_n_users(self, n: int):
         """
-        Get the top n users based on gem count, sorted in descending order.
+        Get the top n users based on gem count, sorted in descending order
+        by gem count and ascending order by user ID as tiebreaker.
         """
-        top_users = self.db.query(User).order_by(desc(User.gem_count)).limit(n).all()
+        top_users = (
+            self.db.query(User)
+            .order_by(desc(User.gem_count), asc(User.id))
+            .limit(n)
+            .all()
+        )
         return top_users
