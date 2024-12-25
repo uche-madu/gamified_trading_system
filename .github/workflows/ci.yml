@@ -35,7 +35,6 @@ jobs:
       - name: Apply Alembic Migrations
         run: make alembic-upgrade
 
-
       # Step 3: Run All Tests
       - name: Run All Tests
         run: make all-tests-with-coverage

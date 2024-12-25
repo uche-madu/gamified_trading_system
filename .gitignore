@@ -46,8 +46,4 @@ docker-compose.override.yaml
 *.cache/
 
 .ruff.toml
-
-alembic.ini
-alembic/
-
 .coverage

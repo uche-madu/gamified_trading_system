@@ -7,8 +7,10 @@ repos:
       - id: ruff
         name: Ruff Linter
         args: ["--fix"]  # Automatically fix linting issues
+        exclude: "alembic/versions/"
       - id: ruff-format
         name: Ruff Formatter
+        exclude: "alembic/versions/"
 
   # Black: Code Formatter
   - repo: https://github.com/psf/black
@@ -17,6 +19,7 @@ repos:
       - id: black
         name: Black Formatter
         args: ["--quiet"]  # Automatically format without checking
+        exclude: "alembic/versions/"
 
   # YAML Linter: Check YAML syntax and formatting
   - repo: https://github.com/adrienverge/yamllint
@@ -33,7 +36,9 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace  # Fix trailing whitespace automatically
+        exclude: "alembic/versions/"
       - id: end-of-file-fixer    # Fix missing newline at EOF automatically
+        exclude: "alembic/versions/"
 
   # Pytest: Run tests before commit
   - repo: local
